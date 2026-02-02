@@ -1,412 +1,427 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronDown, Star, MapPin, Users, Zap } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useState } from "react";
 
 /**
- * Snowbrew Home Page
- * Design: Vibrant Urban Playfulness
- * - Fredoka (bold, rounded) for headings
- * - Open Sans for body text
- * - Teal (#0EA5A5), Coral (#FF6B6B), Plum (#6B2C91) palette
- * - Organic curved sections, playful interactions
+ * Snowbrew Home Page - Replicating TheHangoverSG.com Structure
+ * Design: Blue color scheme (#003D82 primary, #D4AF37 gold accents)
+ * Logo: Penguin mascot integrated throughout
  */
 
 export default function Home() {
-  const [expandedPricing, setExpandedPricing] = useState<string | null>(null);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  const testimonials = [
+    {
+      title: "Corporate Event Success",
+      description: "Amazing bubble tea experience at our company gathering. Guests loved the customization options!",
+      image: "https://private-us-east-1.manuscdn.com/sessionFile/RbBcrmK9KDYA80mIEWLI4R/sandbox/WPEndDzKIC5JeQ4SJleclm-img-4_1770040786000_na1fn_ZGVsaGktZXZlbnQtY2VsZWJyYXRpb24.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvUmJCY3JtSzlLRFlBODBtSUVXTEk0Ui9zYW5kYm94L1dQRW5kRHpLSUM1SmVRNFNKbGVjbG0taW1nLTRfMTc3MDA0MDc4NjAwMF9uYTFmbl9aR1ZzYUdrdFpYWmxiblF0WTJWc1pXSnlZWFJwYjI0LnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=WdG9stG67RRxAlp3yIWIwz6WFhexfIjDPQwogX7n2JztssNegBBzD~uM9LGLOBi0jgzSsDxouMG-EmU~GSs5mLt6Fk3fQKK4euPas-249ntUEVmWjuUVQURxhQ0rOIz1kiVVhWP8ncd~Dh~B1yCehC8X1ORUjdOiayqtDIfrAAaxWrxtjC52wWFNPY5o2VxsQlZpQTqUZs9UGhTR9pkOxspeYgRXhuf7Bz8gI5FBdO3BhJG~erT1n5lTjJGu8xh-nFVDg9aiwKWjQk9i7oKOBk8mWxvSjw8V2HegFVWWjaSdfmIkBtZYweFtqWfH4rapDyn8sXRlhSK1wo~iIDzDdA__"
+    },
+    {
+      title: "Wedding Celebration",
+      description: "Perfect addition to our wedding reception. The live station was a huge hit with guests!",
+      image: "https://private-us-east-1.manuscdn.com/sessionFile/RbBcrmK9KDYA80mIEWLI4R/sandbox/WPEndDzKIC5JeQ4SJleclm-img-2_1770040782000_na1fn_c2VydmljZS1saXZlLXN0YXRpb24.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvUmJCY3JtSzlLRFlBODBtSUVXTEk0Ui9zYW5kYm94L1dQRW5kRHpLSUM1SmVRNFNKbGVjbG0taW1nLTJfMTc3MDA0MDc4MjAwMF9uYTFmbl9jMlZ5ZG1salpTMXNhWFpsTFhOMFlYUnBiMjQucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=rwy-IxhF6wIPqsWsq7GsDJsj5-fU3gcWyLKDM~NKFrMN3dE6iG~OjQqXfavubRm9a0PzRyRrg-bggm6gr7A~b9RIhDkJxFvK~nxeKmqOKo6UISAgajx5bGm9W9PGTZSNn5S1qR4hUBu14hVbrsQYAOJ4U3QNmedd-zMSWnIZTBmhQlILILWQBcBCAlqti-R7JTDpLdNNxPGESJjytsH9ZiX2p4JKFGK3KgDA7rtmc7eQ4QirIPMx72ut40ckxmn-NZiKdPaC3Dv-JUYKETeSzTmkLTjlsXExCSMx6Pksmd5Jp1AbqmX1r-4nBzVtu5RGwE8X1SRIIBD1nlKjCr8hFQ__"
+    },
+    {
+      title: "Private Party",
+      description: "Snowbrew made our celebration unforgettable. Professional service and delicious bubble tea!",
+      image: "https://private-us-east-1.manuscdn.com/sessionFile/RbBcrmK9KDYA80mIEWLI4R/sandbox/WPEndDzKIC5JeQ4SJleclm-img-5_1770040788000_na1fn_YnViYmxlLXRlYS12YXJpZXRpZXM.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvUmJCY3JtSzlLRFlBODBtSUVXTEk0Ui9zYW5kYm94L1dQRW5kRHpLSUM1SmVRNFNKbGVjbG0taW1nLTVfMTc3MDA0MDc4ODAwMF9uYTFmbl9ZblZpWW14bExYUmxZUzEyWVhKcFpYUnBaWE0ucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=iljpyg2vKCTTPmTcbUlSBBENpC-Jk1zcwjZ2hRkKitC~Qkv0tV1O7sezjZkgleu4vfCwy~US4gqsn78Lij9isWls3ybXmGbk~KHj6jY85-cuROOp63ATjfTBeF5nNaF9oWcnNDOlaxRWRVbiik4-JGCRpamGpbZhMHpbYnIw5Lki6pxgRNEz1dX4w0UYYUZ5bwqfOY1-fF388uv2udeplo7ry0uTDJQwLgrVGVpvpITvzBLqPvC~pA0W7tnvSznvFG3UPUiFDFu~FvPwBJgFgDXOjfjPqEgJNhdR~D71752d8gpVsCbfhodKat8gFcnZPb5WCsZwmIOUXZSwwjp7IQ__"
+    }
+  ];
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white shadow-sm border-b-2 border-accent/20">
-        <div className="container flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-accent to-secondary rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">❄️</span>
+    <div className="min-h-screen bg-white">
+      {/* Navigation - Dashed Border Style */}
+      <nav className="sticky top-0 z-50 bg-white border-b-2 border-dashed border-accent">
+        <div className="container py-4">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            {/* Logo and Branding */}
+            <div className="flex items-center gap-3">
+              <img
+                src="https://private-us-east-1.manuscdn.com/sessionFile/RbBcrmK9KDYA80mIEWLI4R/sandbox/WPEndDzKIC5JeQ4SJleclm-img-3_1770040777000_na1fn_cGVuZ3Vpbi1tYXNjb3QtaGVybw.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvUmJCY3JtSzlLRFlBODBtSUVXTEk0Ui9zYW5kYm94L1dQRW5kRHpLSUM1SmVRNFNKbGVjbG0taW1nLTNfMTc3MDA0MDc3NzAwMF9uYTFmbl9jR1Z1WjNWcGJpMXRZWE5qYjNRdGFHVnlidy5wbmc~eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=BJ7nreVjTG0FhCNZYaIgxlLu-~ZmVtuJLUG39FG3z2iGkIYJZI9MvGoMJmjgAvAC-EmIjxJ9vNqaLF5d63Jy9CR9luxlyQ9fj-O6v8kahZgO0uG8cofnC9Lb6qe6TG7xvI70Oharut84dMfFltwoHD-5PVtJm6OYYthv~nxvdOrNC1aZfcNyvnrgoXJg5T2Adu-zDvYy5VzwEVGka5U3ovx6LnyC7SeceuM8OQnHBqkuxiQiAEuRXtvAOa9ortVar-linQFoZa7WB80EMBoXHFQmllW3cYv9B82BLLU3yYcgFu6GKcFzMDBPvVwnLiLhfSIrE~4Nbrqh-EM87Txlqg__"
+                alt="Snowbrew Logo"
+                className="w-12 h-12 object-contain"
+              />
+              <div className="text-center">
+                <h1 className="text-2xl font-bold text-accent">SNOWBREW</h1>
+                <p className="text-xs text-secondary">bubble tea live bar</p>
+              </div>
             </div>
-            <h1 className="text-xl font-bold text-foreground">Snowbrew</h1>
+
+            {/* Navigation Items - Dashed Boxes */}
+            <div className="hidden md:flex items-center gap-2 flex-wrap justify-center flex-1">
+              {["HOME", "OUR SERVICES", "HOW TO ORDER", "CLIENTS AND REVIEWS", "PAST EVENTS", "FAQ"].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+                  className="px-3 py-1 border-2 border-dashed border-accent text-accent text-sm font-semibold hover:bg-accent/5 transition"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+
+            {/* Search Icon */}
+            <button className="p-2 hover:bg-muted rounded">
+              <Search className="w-5 h-5 text-accent" />
+            </button>
           </div>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#services" className="text-foreground hover:text-accent transition">Services</a>
-            <a href="#pricing" className="text-foreground hover:text-accent transition">Pricing</a>
-            <a href="#contact" className="text-foreground hover:text-accent transition">Contact</a>
-          </div>
-          <Button className="bg-accent hover:bg-accent/90 text-white rounded-full">
-            Enquire Now
-          </Button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-24 md:pt-20 md:pb-32">
-        {/* Curved background */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            {/* Left: Text Content */}
-            <div className="space-y-6 animate-fade-in">
-              <div className="inline-block bg-accent/10 px-4 py-2 rounded-full">
-                <span className="text-accent font-semibold text-sm">🎉 Exclusive to Delhi</span>
-              </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">
-                Premium Bubble Tea for Your Events
-              </h1>
-              <p className="text-lg text-foreground/70">
-                Snowbrew brings the perfect bubble tea experience to your celebrations, corporate events, and special occasions in Delhi. Customizable flavors, live stations, and unforgettable moments.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-white rounded-full px-8">
-                  Get Started
-                </Button>
-                <Button size="lg" variant="outline" className="border-2 border-accent text-accent hover:bg-accent/5 rounded-full px-8">
-                  Learn More
-                </Button>
-              </div>
-            </div>
-
-            {/* Right: Hero Image */}
-            <div className="relative h-96 md:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
-              <img
-                src="https://private-us-east-1.manuscdn.com/sessionFile/RbBcrmK9KDYA80mIEWLI4R/sandbox/WPEndDzKIC5JeQ4SJleclm-img-1_1770040785000_na1fn_aGVyby1idWJibGUtdGVhLXBvdXJpbmc.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvUmJCY3JtSzlLRFlBODBtSUVXTEk0Ui9zYW5kYm94L1dQRW5kRHpLSUM1SmVRNFNKbGVjbG0taW1nLTFfMTc3MDA0MDc4NTAwMF9uYTFmbl9hR1Z5YnkxaWRXSmliR1V0ZEdWaExYQnZkWEpwYm1jLnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=Wz92-D92vL1kHJhXtloD-Ots2Nt18YWF2up~ySv5E30RSLUXOnogpzhxOautarNAvh2RvdMUhJEQXlTWZxyH-bjBojFEVUtlDWiqot1Bnlgve4Y8e1J8USJsgO-XCUfiD-aNV7Mr0Y4RoLQ2m79uafMDQVLgOolIkqLhGMrC9BLHlSmvKEsDTUqYsPUfkW6D~UUJ5Ol2-PJfe6i2qWzyM9q61SyyA4ITgLKcnYc0GWGdVgfYPZp8Q7zv11za0t~bkDSSZp7V~6zKLQeMqvXGaG56sEMjhY5BnBob1460hRJwhNlgc5R-UjZ-m4tNDaSSY34lMWro0p9bUGQygba30Q__"
-                alt="Bubble tea being poured"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-            </div>
-          </div>
+      <section className="relative h-96 md:h-[500px] bg-gray-800 overflow-hidden">
+        <img
+          src="https://private-us-east-1.manuscdn.com/sessionFile/RbBcrmK9KDYA80mIEWLI4R/sandbox/WPEndDzKIC5JeQ4SJleclm-img-1_1770040785000_na1fn_aGVyby1idWJibGUtdGVhLXBvdXJpbmc.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvUmJCY3JtSzlLRFlBODBtSUVXTEk0Ui9zYW5kYm94L1dQRW5kRHpLSUM1SmVRNFNKbGVjbG0taW1nLTFfMTc3MDA0MDc4NTAwMF9uYTFmbl9hR1Z5YnkxaWRXSmliR1V0ZEdWaExYQnZkWEpwYm1jLnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=Wz92-D92vL1kHJhXtloD-Ots2Nt18YWF2up~ySv5E30RSLUXOnogpzhxOautarNAvh2RvdMUhJEQXlTWZxyH-bjBojFEVUtlDWiqot1Bnlgve4Y8e1J8USJsgO-XCUfiD-aNV7Mr0Y4RoLQ2m79uafMDQVLgOolIkqLhGMrC9BLHlSmvKEsDTUqYsPUfkW6D~UUJ5Ol2-PJfe6i2qWzyM9q61SyyA4ITgLKcnYc0GWGdVgfYPZp8Q7zv11za0t~bkDSSZp7V~6zKLQeMqvXGaG56sEMjhY5BnBob1460hRJwhNlgc5R-UjZ-m4tNDaSSY34lMWro0p9bUGQygba30Q__"
+          alt="Bubble tea hero"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white">
+          <h2 className="text-5xl md:text-6xl font-bold italic text-center mb-4">BUBBLE TEA<br />LIVE STATION</h2>
+          <p className="text-lg md:text-xl text-secondary">WE BRING LIFE TO YOUR EVENTS</p>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 md:py-32 bg-white relative overflow-hidden">
-        {/* Curved divider top */}
-        <div className="absolute top-0 left-0 right-0 h-20 bg-background" style={{
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 20%)'
-        }}></div>
+      {/* Only Available in Delhi Banner */}
+      <div className="bg-gray-200 text-center py-3 text-accent font-semibold uppercase tracking-wider">
+        Only available in Delhi
+      </div>
 
-        <div className="container pt-12">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Our Services</h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-accent to-secondary mx-auto rounded-full"></div>
-          </div>
+      {/* About Us Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold italic text-accent mb-4">About Us</h2>
+          <div className="w-20 h-1 bg-secondary mx-auto mb-8"></div>
+          <p className="text-foreground/80 text-lg leading-relaxed">
+            We are committed to delivery unique, innovative, and trendy catering options that elevate events. From customised flavours to personalised branding on cups, packaging, and booth designs, we ensure every detail aligns with your theme. More than just catering, we are your partners in creating unforgettable events.
+          </p>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Service 1: Live Station */}
-            <Card className="p-8 rounded-3xl border-2 border-accent/20 hover:border-accent/50 hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="w-16 h-16 bg-gradient-to-br from-accent to-accent/50 rounded-2xl flex items-center justify-center mb-6">
-                <Zap className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">Live Station</h3>
-              <p className="text-foreground/70 mb-4">
-                Interactive bubble tea station with customizable flavors, sugar levels, and toppings. Perfect for corporate events, weddings, and celebrations.
+      {/* Our Services Section */}
+      <section id="our-services" className="py-16 md:py-24 bg-muted">
+        <div className="container">
+          <h2 className="text-4xl font-bold text-center text-accent mb-12">Our Services</h2>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            {/* Live Station */}
+            <Card className="p-8 border-2 border-accent/20">
+              <h3 className="text-2xl font-bold text-accent mb-4">Bubble Tea Live Station & Catering</h3>
+              <p className="text-foreground/80 mb-4">
+                Our Live Station lets guests customise sugar levels to suit their preferences. We also provide custom branding options, including stickers on cups for added personalisation.
               </p>
-              <ul className="space-y-2 text-sm text-foreground/60">
-                <li>✓ 100-500+ cups capacity</li>
+              <ul className="space-y-2 text-sm text-foreground/70">
+                <li>✓ Customisable sugar levels</li>
                 <li>✓ Custom branding options</li>
                 <li>✓ Professional staff included</li>
               </ul>
             </Card>
 
-            {/* Service 2: Party Box */}
-            <Card className="p-8 rounded-3xl border-2 border-secondary/20 hover:border-secondary/50 hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="w-16 h-16 bg-gradient-to-br from-secondary to-secondary/50 rounded-2xl flex items-center justify-center mb-6">
-                <Users className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">Party Box Catering</h3>
-              <p className="text-foreground/70 mb-4">
-                Self-serve bubble tea in convenient 5L party boxes. Ideal for smaller gatherings and intimate celebrations.
+            {/* Party Box */}
+            <Card className="p-8 border-2 border-accent/20">
+              <h3 className="text-2xl font-bold text-accent mb-4">Party Box Self-Serve Catering</h3>
+              <p className="text-foreground/80 mb-4">
+                Self-serve bubble tea with free pearls included for every order. This option is perfect for smaller parties with lower minimum order than Live Stations!
               </p>
-              <ul className="space-y-2 text-sm text-foreground/60">
-                <li>✓ Lower minimum order</li>
+              <ul className="space-y-2 text-sm text-foreground/70">
                 <li>✓ Self-serve convenience</li>
-                <li>✓ Fresh pearls included</li>
+                <li>✓ Free pearls included</li>
+                <li>✓ Lower minimum order</li>
               </ul>
             </Card>
 
-            {/* Service 3: Bottled Tea */}
-            <Card className="p-8 rounded-3xl border-2 border-accent/20 hover:border-accent/50 hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="w-16 h-16 bg-gradient-to-br from-accent to-accent/50 rounded-2xl flex items-center justify-center mb-6">
-                <MapPin className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">Bottled Bubble Tea</h3>
-              <p className="text-foreground/70 mb-4">
-                Pre-made bubble tea in bottles for grab-and-go convenience. Perfect for full-day events and office deliveries.
+            {/* Bottled Tea */}
+            <Card className="p-8 border-2 border-accent/20">
+              <h3 className="text-2xl font-bold text-accent mb-4">Bottled Bubble Tea</h3>
+              <p className="text-foreground/80 mb-4">
+                Our Bottled Bubble Tea is perfect for full-day events or grab-and-go options – fuss-free and convenient! They stay fresh for up to 3 days when refrigerated.
               </p>
-              <ul className="space-y-2 text-sm text-foreground/60">
+              <ul className="space-y-2 text-sm text-foreground/70">
                 <li>✓ Fresh for up to 3 days</li>
-                <li>✓ Easy distribution</li>
+                <li>✓ Grab-and-go convenience</li>
                 <li>✓ Premium quality</li>
+              </ul>
+            </Card>
+
+            {/* Other Services */}
+            <Card className="p-8 border-2 border-accent/20">
+              <h3 className="text-2xl font-bold text-accent mb-4">Other Food Live Stations</h3>
+              <p className="text-foreground/80 mb-4">
+                We offer a variety of food live stations that cater to a wide range of target audience, such as Acai Bowls, Smoothies, Popcorn, Nachos, and more!
+              </p>
+              <ul className="space-y-2 text-sm text-foreground/70">
+                <li>✓ Diverse menu options</li>
+                <li>✓ Customisable offerings</li>
+                <li>✓ Professional setup</li>
               </ul>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* Why Choose Snowbrew */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-accent/5 to-secondary/5">
+      {/* Testimonials/Clients Section */}
+      <section id="clients-and-reviews" className="py-16 md:py-24 bg-white">
         <div className="container">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Image */}
-            <div className="relative h-96 md:h-[450px] rounded-3xl overflow-hidden shadow-xl">
+          <h2 className="text-4xl font-bold text-center text-accent mb-12">Clients & Testimonials</h2>
+
+          <div className="relative max-w-4xl mx-auto">
+            <div className="bg-muted p-8 rounded-lg">
               <img
-                src="https://private-us-east-1.manuscdn.com/sessionFile/RbBcrmK9KDYA80mIEWLI4R/sandbox/WPEndDzKIC5JeQ4SJleclm-img-4_1770040786000_na1fn_ZGVsaGktZXZlbnQtY2VsZWJyYXRpb24.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvUmJCY3JtSzlLRFlBODBtSUVXTEk0Ui9zYW5kYm94L1dQRW5kRHpLSUM1SmVRNFNKbGVjbG0taW1nLTRfMTc3MDA0MDc4NjAwMF9uYTFmbl9aR1ZzYUdrdFpYWmxiblF0WTJWc1pXSnlZWFJwYjI0LnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=WdG9stG67RRxAlp3yIWIwz6WFhexfIjDPQwogX7n2JztssNegBBzD~uM9LGLOBi0jgzSsDxouMG-EmU~GSs5mLt6Fk3fQKK4euPas-249ntUEVmWjuUVQURxhQ0rOIz1kiVVhWP8ncd~Dh~B1yCehC8X1ORUjdOiayqtDIfrAAaxWrxtjC52wWFNPY5o2VxsQlZpQTqUZs9UGhTR9pkOxspeYgRXhuf7Bz8gI5FBdO3BhJG~erT1n5lTjJGu8xh-nFVDg9aiwKWjQk9i7oKOBk8mWxvSjw8V2HegFVWWjaSdfmIkBtZYweFtqWfH4rapDyn8sXRlhSK1wo~iIDzDdA__"
-                alt="Delhi event celebration"
-                className="w-full h-full object-cover"
+                src={testimonials[currentTestimonial].image}
+                alt={testimonials[currentTestimonial].title}
+                className="w-full h-64 object-cover rounded-lg mb-6"
               />
+              <h3 className="text-2xl font-bold text-accent mb-2">{testimonials[currentTestimonial].title}</h3>
+              <p className="text-foreground/80 text-lg">{testimonials[currentTestimonial].description}</p>
             </div>
 
-            {/* Content */}
-            <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground">Why Choose Snowbrew?</h2>
-              <div className="space-y-4">
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Star className="w-6 h-6 text-accent" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground mb-1">Premium Quality</h4>
-                    <p className="text-foreground/70">Freshly prepared with the finest ingredients and authentic bubble tea recipes.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Star className="w-6 h-6 text-secondary" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground mb-1">Full Customization</h4>
-                    <p className="text-foreground/70">Custom flavors, branding, and booth designs to match your event theme perfectly.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Star className="w-6 h-6 text-accent" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground mb-1">Professional Team</h4>
-                    <p className="text-foreground/70">Experienced staff ensuring smooth service, setup, and cleanup for your peace of mind.</p>
-                  </div>
-                </div>
-              </div>
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-white rounded-full px-8 mt-6">
-                Book Your Event
-              </Button>
+            {/* Carousel Controls */}
+            <div className="flex justify-center gap-4 mt-8">
+              <button
+                onClick={prevTestimonial}
+                className="p-3 bg-accent text-white rounded-full hover:bg-accent/90 transition"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                onClick={nextTestimonial}
+                className="p-3 bg-accent text-white rounded-full hover:bg-accent/90 transition"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="text-center mt-4 text-sm text-foreground/60">
+              {currentTestimonial + 1} / {testimonials.length}
             </div>
           </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 md:py-32 bg-white">
+      <section id="pricing" className="py-16 md:py-24 bg-muted">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Pricing Packages</h2>
-            <p className="text-lg text-foreground/70">Flexible options for events of any size. Custom packages available on request.</p>
-            <div className="w-20 h-1 bg-gradient-to-r from-accent to-secondary mx-auto rounded-full mt-4"></div>
-          </div>
+          <h2 className="text-4xl font-bold text-center text-accent mb-4">Choose Your Bubble Tea Live Station Package</h2>
+          <p className="text-center text-foreground/80 mb-12 max-w-2xl mx-auto">
+            Catering bubble tea for an event but don't know where to start? Here are some standard packages, but feel free to create your own package to tailor better to your event!
+          </p>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="grid md:grid-cols-3 gap-8">
             {/* Basic Package */}
-            <Card className="p-8 rounded-3xl border-2 border-accent/30 hover:border-accent hover:shadow-2xl transition-all duration-300 relative">
-              <div className="absolute -top-4 left-8 bg-accent text-white px-4 py-1 rounded-full text-sm font-bold">
-                Popular
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-2">Basic Package</h3>
-              <p className="text-foreground/60 mb-6">Perfect for small gatherings</p>
+            <Card className="p-8 border-2 border-accent/30 hover:border-accent transition">
+              <h3 className="text-2xl font-bold text-accent mb-4">Basic Package</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-accent">₹8,999</span>
-                <span className="text-foreground/60 ml-2">onwards</span>
+                <div className="text-5xl font-bold text-accent">100-200</div>
+                <p className="text-foreground/60">cups</p>
               </div>
-              <ul className="space-y-3 mb-8 text-foreground/70">
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-accent rounded-full"></span>
-                  100-200 cups capacity
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-accent rounded-full"></span>
-                  2 flavors included
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-accent rounded-full"></span>
-                  2 hours service
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-accent rounded-full"></span>
-                  1 staff member
-                </li>
+              <ul className="space-y-3 text-foreground/80 mb-8">
+                <li>• Choose 2 flavours from our menu offerings</li>
+                <li>• Pearls included</li>
+                <li>• Complimentary 2 hours (up to) service at event</li>
+                <li>• 1 event on-site service staff</li>
+                <li>• Service includes transportation to venue, booth set-up & clean-up</li>
+                <li>• Minimum 1.5m x 1.5m space required</li>
+                <li>• Complimentary customisable stickers on cups</li>
               </ul>
-              <Button className="w-full bg-accent hover:bg-accent/90 text-white rounded-full">
-                Enquire Now
-              </Button>
+              <Button className="w-full bg-accent hover:bg-accent/90 text-white">Enquire Now</Button>
             </Card>
 
             {/* Premium Package */}
-            <Card className="p-8 rounded-3xl border-2 border-secondary/30 hover:border-secondary hover:shadow-2xl transition-all duration-300 relative scale-105 md:scale-100">
-              <div className="absolute -top-4 left-8 bg-secondary text-white px-4 py-1 rounded-full text-sm font-bold">
-                Best Value
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-2">Premium Package</h3>
-              <p className="text-foreground/60 mb-6">Ideal for corporate events</p>
+            <Card className="p-8 border-2 border-secondary/50 hover:border-secondary transition bg-white shadow-lg">
+              <div className="bg-secondary text-accent px-3 py-1 inline-block rounded text-sm font-bold mb-4">POPULAR</div>
+              <h3 className="text-2xl font-bold text-accent mb-4">Premium Package</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-secondary">₹15,999</span>
-                <span className="text-foreground/60 ml-2">onwards</span>
+                <div className="text-5xl font-bold text-accent">300-400</div>
+                <p className="text-foreground/60">cups</p>
               </div>
-              <ul className="space-y-3 mb-8 text-foreground/70">
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-secondary rounded-full"></span>
-                  300-400 cups capacity
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-secondary rounded-full"></span>
-                  3 flavors included
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-secondary rounded-full"></span>
-                  2-3 hours service
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-secondary rounded-full"></span>
-                  2 staff members
-                </li>
+              <ul className="space-y-3 text-foreground/80 mb-8">
+                <li>• Choose 2 flavours from our menu offerings</li>
+                <li>• Pearls included</li>
+                <li>• Complimentary 2 hours (up to) service at event</li>
+                <li>• 1-2 event on-site service staff</li>
+                <li>• Service includes transportation to venue, booth set-up & clean-up</li>
+                <li>• Minimum 2m x 2m space required</li>
+                <li>• Complimentary customisable stickers on cups</li>
               </ul>
-              <Button className="w-full bg-secondary hover:bg-secondary/90 text-white rounded-full">
-                Enquire Now
-              </Button>
+              <Button className="w-full bg-accent hover:bg-accent/90 text-white">Enquire Now</Button>
             </Card>
 
             {/* Baller Package */}
-            <Card className="p-8 rounded-3xl border-2 border-accent/30 hover:border-accent hover:shadow-2xl transition-all duration-300 relative">
-              <div className="absolute -top-4 left-8 bg-accent text-white px-4 py-1 rounded-full text-sm font-bold">
-                Premium
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-2">Baller Package</h3>
-              <p className="text-foreground/60 mb-6">For large-scale celebrations</p>
+            <Card className="p-8 border-2 border-accent/30 hover:border-accent transition">
+              <h3 className="text-2xl font-bold text-accent mb-4">Baller Package</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-accent">₹24,999</span>
-                <span className="text-foreground/60 ml-2">onwards</span>
+                <div className="text-5xl font-bold text-accent">&gt;500</div>
+                <p className="text-foreground/60">cups</p>
               </div>
-              <ul className="space-y-3 mb-8 text-foreground/70">
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-accent rounded-full"></span>
-                  500+ cups capacity
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-accent rounded-full"></span>
-                  5+ flavors included
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-accent rounded-full"></span>
-                  3 hours service
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-accent rounded-full"></span>
-                  2-3 staff members
-                </li>
+              <ul className="space-y-3 text-foreground/80 mb-8">
+                <li>• Choose 2 flavours from our menu offerings</li>
+                <li>• Pearls included</li>
+                <li>• Complimentary 3 hours (up to) service at event</li>
+                <li>• 2 event on-site service staff</li>
+                <li>• Service includes transportation to venue, booth set-up & clean-up</li>
+                <li>• Minimum 2m x 2m space required</li>
+                <li>• Complimentary customisable stickers on cups</li>
               </ul>
-              <Button className="w-full bg-accent hover:bg-accent/90 text-white rounded-full">
-                Enquire Now
-              </Button>
+              <Button className="w-full bg-accent hover:bg-accent/90 text-white">Enquire Now</Button>
             </Card>
           </div>
-
-          {/* Custom Pricing */}
-          <Card className="p-8 rounded-3xl bg-gradient-to-r from-accent/5 to-secondary/5 border-2 border-dashed border-accent/30">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div>
-                <h3 className="text-2xl font-bold text-foreground mb-2">Custom Packages</h3>
-                <p className="text-foreground/70">Need something unique? We can create a tailored package for your specific requirements.</p>
-              </div>
-              <Button className="bg-accent hover:bg-accent/90 text-white rounded-full px-8 flex-shrink-0">
-                Get Custom Quote
-              </Button>
-            </div>
-          </Card>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 md:py-32 bg-gradient-to-br from-accent/10 to-secondary/10">
-        <div className="container">
-          <div className="max-w-2xl mx-auto text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Ready to Elevate Your Event?</h2>
-            <p className="text-lg text-foreground/70">Get in touch with us today to book your bubble tea catering experience in Delhi.</p>
-          </div>
+      {/* Order Form Section */}
+      <section id="how-to-order" className="py-16 md:py-24 bg-white">
+        <div className="container max-w-3xl">
+          <h2 className="text-4xl font-bold text-center text-accent mb-4">How To Order</h2>
+          <div className="w-20 h-1 bg-secondary mx-auto mb-8"></div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-            <Card className="p-6 rounded-2xl text-center hover:shadow-lg transition-all">
-              <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPin className="w-6 h-6 text-accent" />
+          <form className="space-y-6">
+            {/* Name Fields */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-foreground mb-2">First Name *</label>
+                <input type="text" className="w-full px-4 py-2 border border-border rounded" />
               </div>
-              <h4 className="font-bold text-foreground mb-2">Location</h4>
-              <p className="text-foreground/70 text-sm">Serving all of Delhi NCR</p>
-            </Card>
-
-            <Card className="p-6 rounded-2xl text-center hover:shadow-lg transition-all">
-              <div className="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-xl">📞</span>
+              <div>
+                <label className="block text-sm font-semibold text-foreground mb-2">Last Name *</label>
+                <input type="text" className="w-full px-4 py-2 border border-border rounded" />
               </div>
-              <h4 className="font-bold text-foreground mb-2">Phone</h4>
-              <p className="text-foreground/70 text-sm">+91 XXXXX XXXXX</p>
-            </Card>
+            </div>
 
-            <Card className="p-6 rounded-2xl text-center hover:shadow-lg transition-all">
-              <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-xl">📧</span>
+            {/* Email and Contact */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-foreground mb-2">Email *</label>
+                <input type="email" className="w-full px-4 py-2 border border-border rounded" />
               </div>
-              <h4 className="font-bold text-foreground mb-2">Email</h4>
-              <p className="text-foreground/70 text-sm">hello@snowbrew.in</p>
-            </Card>
-          </div>
+              <div>
+                <label className="block text-sm font-semibold text-foreground mb-2">Contact Number *</label>
+                <input type="tel" className="w-full px-4 py-2 border border-border rounded" />
+              </div>
+            </div>
 
-          <div className="mt-12 text-center">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-white rounded-full px-12 py-6 text-lg">
-              Send Enquiry
+            {/* Company */}
+            <div>
+              <label className="block text-sm font-semibold text-foreground mb-2">Company (if applicable)</label>
+              <input type="text" className="w-full px-4 py-2 border border-border rounded" />
+            </div>
+
+            {/* Service Selection */}
+            <div>
+              <label className="block text-sm font-semibold text-foreground mb-3">Choice of Live Station / Product *</label>
+              <div className="space-y-2">
+                {["Bubble Tea Live Station", "Bottled Bubble Tea", "Party Box 5L Catering", "Other Food Live Stations"].map((service) => (
+                  <label key={service} className="flex items-center gap-2">
+                    <input type="checkbox" className="w-4 h-4" />
+                    <span className="text-foreground">{service}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Event Details */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-foreground mb-2">No. of Pax to Serve *</label>
+                <input type="number" className="w-full px-4 py-2 border border-border rounded" />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-foreground mb-2">Event Date and Time *</label>
+                <input type="datetime-local" className="w-full px-4 py-2 border border-border rounded" />
+              </div>
+            </div>
+
+            {/* Event Location and Nature */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-foreground mb-2">Event Location *</label>
+                <input type="text" className="w-full px-4 py-2 border border-border rounded" />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-foreground mb-2">Nature of Event *</label>
+                <input type="text" placeholder="e.g., Birthday, Corporate Event, Wedding" className="w-full px-4 py-2 border border-border rounded" />
+              </div>
+            </div>
+
+            {/* How did you hear about us */}
+            <div>
+              <label className="block text-sm font-semibold text-foreground mb-3">How did you hear about us? *</label>
+              <div className="space-y-2">
+                {["Word-of-mouth / Friend's recommendation", "Google search", "Social media", "Other"].map((source) => (
+                  <label key={source} className="flex items-center gap-2">
+                    <input type="checkbox" className="w-4 h-4" />
+                    <span className="text-foreground">{source}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Additional Comments */}
+            <div>
+              <label className="block text-sm font-semibold text-foreground mb-2">Additional Comments</label>
+              <textarea rows={4} className="w-full px-4 py-2 border border-border rounded"></textarea>
+            </div>
+
+            {/* Submit Button */}
+            <Button className="w-full bg-accent hover:bg-accent/90 text-white py-3 text-lg font-semibold">
+              SUBMIT
             </Button>
-          </div>
+          </form>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-foreground text-white py-12">
+      <footer className="bg-accent text-white py-12">
         <div className="container">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">❄️</span>
-                <h3 className="text-xl font-bold">Snowbrew</h3>
-              </div>
-              <p className="text-white/70">Premium bubble tea catering for Delhi's most memorable events.</p>
-            </div>
-            <div>
               <h4 className="font-bold mb-4">Services</h4>
-              <ul className="space-y-2 text-white/70 text-sm">
-                <li><a href="#" className="hover:text-white transition">Live Station</a></li>
-                <li><a href="#" className="hover:text-white transition">Party Box</a></li>
-                <li><a href="#" className="hover:text-white transition">Bottled Tea</a></li>
+              <ul className="space-y-2 text-sm text-white/80">
+                <li><a href="#" className="hover:text-white transition">Bubble Tea Live Station</a></li>
+                <li><a href="#" className="hover:text-white transition">Bottled Bubble Tea</a></li>
+                <li><a href="#" className="hover:text-white transition">Party Box Catering</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-4">Company</h4>
-              <ul className="space-y-2 text-white/70 text-sm">
-                <li><a href="#" className="hover:text-white transition">About</a></li>
+              <ul className="space-y-2 text-sm text-white/80">
+                <li><a href="#" className="hover:text-white transition">About Us</a></li>
                 <li><a href="#" className="hover:text-white transition">Contact</a></li>
                 <li><a href="#" className="hover:text-white transition">FAQ</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-4">Follow Us</h4>
-              <ul className="space-y-2 text-white/70 text-sm">
+              <ul className="space-y-2 text-sm text-white/80">
                 <li><a href="#" className="hover:text-white transition">Instagram</a></li>
                 <li><a href="#" className="hover:text-white transition">Facebook</a></li>
                 <li><a href="#" className="hover:text-white transition">WhatsApp</a></li>
               </ul>
             </div>
+            <div>
+              <h4 className="font-bold mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm text-white/80">
+                <li>📞 +91 XXXXX XXXXX</li>
+                <li>📧 hello@snowbrew.in</li>
+                <li>📍 Delhi, India</li>
+              </ul>
+            </div>
           </div>
-          <div className="border-t border-white/20 pt-8 text-center text-white/70 text-sm">
+
+          <div className="border-t border-white/20 pt-8 text-center text-sm text-white/70">
             <p>&copy; 2026 Snowbrew. All rights reserved. Exclusively serving Delhi.</p>
+            <div className="mt-4 space-y-1">
+              <a href="#" className="block hover:text-white transition">Terms and Conditions</a>
+              <a href="#" className="block hover:text-white transition">Privacy Policy</a>
+            </div>
           </div>
         </div>
       </footer>

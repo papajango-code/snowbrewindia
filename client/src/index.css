@@ -43,40 +43,40 @@
 }
 
 :root {
-  /* Vibrant Urban Playfulness - Snowbrew Color Palette */
-  --primary: #0EA5A5; /* Vibrant Teal */
-  --primary-foreground: #FFFBF0; /* Soft Cream */
-  --sidebar-primary: #0EA5A5;
-  --sidebar-primary-foreground: #FFFBF0;
-  --chart-1: #FF6B6B; /* Warm Coral */
-  --chart-2: #0EA5A5; /* Vibrant Teal */
-  --chart-3: #6B2C91; /* Deep Plum */
-  --chart-4: #F59E0B; /* Warm Gold */
-  --chart-5: #EC4899; /* Playful Pink */
-  --radius: 1rem;
-  --background: #FFFBF0; /* Soft Cream */
-  --foreground: #1A1A1A; /* Deep Charcoal */
+  /* Snowbrew Blue Color Palette - Replicating TheHangoverSG Style */
+  --primary: #003D82; /* Dark Blue */
+  --primary-foreground: #FFFFFF;
+  --sidebar-primary: #003D82;
+  --sidebar-primary-foreground: #FFFFFF;
+  --chart-1: #003D82; /* Dark Blue */
+  --chart-2: #0066CC; /* Medium Blue */
+  --chart-3: #D4AF37; /* Gold Accent */
+  --chart-4: #666666; /* Gray */
+  --chart-5: #999999; /* Light Gray */
+  --radius: 0.5rem;
+  --background: #FFFFFF; /* White */
+  --foreground: #1A1A1A; /* Dark Text */
   --card: #FFFFFF; /* Pure White */
   --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
   --popover-foreground: #1A1A1A;
-  --secondary: #FF6B6B; /* Warm Coral */
-  --secondary-foreground: #FFFFFF;
-  --muted: #E5E7EB; /* Light Gray */
-  --muted-foreground: #6B7280; /* Medium Gray */
-  --accent: #0EA5A5; /* Vibrant Teal */
+  --secondary: #D4AF37; /* Gold */
+  --secondary-foreground: #1A1A1A;
+  --muted: #F5F5F5; /* Light Gray */
+  --muted-foreground: #666666; /* Medium Gray */
+  --accent: #003D82; /* Dark Blue */
   --accent-foreground: #FFFFFF;
   --destructive: #EF4444; /* Red */
   --destructive-foreground: #FFFFFF;
-  --border: #E5E7EB; /* Light Gray */
-  --input: #F3F4F6; /* Very Light Gray */
-  --ring: #0EA5A5; /* Vibrant Teal */
+  --border: #DDDDDD; /* Light Border */
+  --input: #F9F9F9; /* Very Light Gray */
+  --ring: #003D82; /* Dark Blue */
   --sidebar: #FFFFFF;
   --sidebar-foreground: #1A1A1A;
-  --sidebar-accent: #0EA5A5;
+  --sidebar-accent: #003D82;
   --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #E5E7EB;
-  --sidebar-ring: #0EA5A5;
+  --sidebar-border: #DDDDDD;
+  --sidebar-ring: #003D82;
 }
 
 .dark {
