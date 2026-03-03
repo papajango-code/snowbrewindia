@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import { useWhatsApp } from "@/hooks/useWhatsApp";
+import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 
 /**
  * Snowbrew Home Page - Replicating TheHangoverSG.com Structure
@@ -11,6 +13,45 @@ import { useState } from "react";
 
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const { createFormMessage, openWhatsApp } = useWhatsApp();
+
+  // Form state
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    contact: "",
+    company: "",
+    services: [] as string[],
+    pax: "",
+    eventDate: "",
+    eventLocation: "",
+    eventType: "",
+    comments: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleServiceChange = (service: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      services: prev.services.includes(service)
+        ? prev.services.filter((s) => s !== service)
+        : [...prev.services, service],
+    }));
+  };
+
+  const handleSubmitViaWhatsApp = (e: React.FormEvent) => {
+    e.preventDefault();
+    const message = createFormMessage(formData);
+    openWhatsApp(message);
+  };
 
   const testimonials = [
     {
@@ -40,6 +81,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Floating WhatsApp Button */}
+      <FloatingWhatsAppButton />
       {/* Navigation - Dashed Border Style */}
       <nav className="sticky top-0 z-50 bg-white border-b-2 border-dashed border-accent">
         <div className="container py-4">
@@ -288,11 +331,23 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">First Name *</label>
-                <input type="text" className="w-full px-4 py-2 border border-border rounded" />
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-border rounded"
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">Last Name *</label>
-                <input type="text" className="w-full px-4 py-2 border border-border rounded" />
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-border rounded"
+                />
               </div>
             </div>
 
@@ -300,18 +355,36 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">Email *</label>
-                <input type="email" className="w-full px-4 py-2 border border-border rounded" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-border rounded"
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">Contact Number *</label>
-                <input type="tel" className="w-full px-4 py-2 border border-border rounded" />
+                <input
+                  type="tel"
+                  name="contact"
+                  value={formData.contact}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-border rounded"
+                />
               </div>
             </div>
 
             {/* Company */}
             <div>
               <label className="block text-sm font-semibold text-foreground mb-2">Company (if applicable)</label>
-              <input type="text" className="w-full px-4 py-2 border border-border rounded" />
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-border rounded"
+              />
             </div>
 
             {/* Service Selection */}
@@ -320,7 +393,12 @@ export default function Home() {
               <div className="space-y-2">
                 {["Bubble Tea Live Station", "Bottled Bubble Tea", "Party Box 5L Catering", "Other Food Live Stations"].map((service) => (
                   <label key={service} className="flex items-center gap-2">
-                    <input type="checkbox" className="w-4 h-4" />
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4"
+                      checked={formData.services.includes(service)}
+                      onChange={() => handleServiceChange(service)}
+                    />
                     <span className="text-foreground">{service}</span>
                   </label>
                 ))}
@@ -331,11 +409,23 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">No. of Pax to Serve *</label>
-                <input type="number" className="w-full px-4 py-2 border border-border rounded" />
+                <input
+                  type="number"
+                  name="pax"
+                  value={formData.pax}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-border rounded"
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">Event Date and Time *</label>
-                <input type="datetime-local" className="w-full px-4 py-2 border border-border rounded" />
+                <input
+                  type="datetime-local"
+                  name="eventDate"
+                  value={formData.eventDate}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-border rounded"
+                />
               </div>
             </div>
 
@@ -343,11 +433,24 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">Event Location *</label>
-                <input type="text" className="w-full px-4 py-2 border border-border rounded" />
+                <input
+                  type="text"
+                  name="eventLocation"
+                  value={formData.eventLocation}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-border rounded"
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">Nature of Event *</label>
-                <input type="text" placeholder="e.g., Birthday, Corporate Event, Wedding" className="w-full px-4 py-2 border border-border rounded" />
+                <input
+                  type="text"
+                  name="eventType"
+                  value={formData.eventType}
+                  onChange={handleInputChange}
+                  placeholder="e.g., Birthday, Corporate Event, Wedding"
+                  className="w-full px-4 py-2 border border-border rounded"
+                />
               </div>
             </div>
 
@@ -367,13 +470,28 @@ export default function Home() {
             {/* Additional Comments */}
             <div>
               <label className="block text-sm font-semibold text-foreground mb-2">Additional Comments</label>
-              <textarea rows={4} className="w-full px-4 py-2 border border-border rounded"></textarea>
+              <textarea
+                name="comments"
+                rows={4}
+                value={formData.comments}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-border rounded"
+              ></textarea>
             </div>
 
-            {/* Submit Button */}
-            <Button className="w-full bg-accent hover:bg-accent/90 text-white py-3 text-lg font-semibold">
-              SUBMIT
-            </Button>
+            {/* Submit Buttons */}
+            <div className="flex gap-4 flex-col sm:flex-row">
+              <Button className="flex-1 bg-accent hover:bg-accent/90 text-white py-3 text-lg font-semibold">
+                SUBMIT
+              </Button>
+              <Button
+                onClick={handleSubmitViaWhatsApp}
+                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 text-lg font-semibold flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Send via WhatsApp
+              </Button>
+            </div>
           </form>
         </div>
       </section>
